@@ -8,11 +8,20 @@ import java.util.Date
 import code.lib._
 import Helpers._
 
+import net.liftweb.http.SHtml
+import net.liftweb.http.js.JsCmds._
+
 class HelloWorld {
   lazy val date: Box[Date] = DependencyFactory.inject[Date] // inject the date
 
   // replace the contents of the element with id "time" with the date
-  def howdy = "#time *" #> date.map(_.toString)
+  def howdy =
+    "#time *" #> date.map(_.toString) &
+      "#ajaxButton" #> SHtml.ajaxButton("Click me", () => {
+        //Thread.sleep(3000)
+        Thread.sleep(30000)
+        Alert("Click!")
+      })
 
   /*
    lazy val date: Date = DependencyFactory.time.vend // create the date via factory
